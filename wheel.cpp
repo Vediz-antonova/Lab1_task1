@@ -1,6 +1,7 @@
 #include "wheel.h"
 #include <QPainter>
 #include <QKeyEvent>
+#include <QPainterPath>
 
 Wheel::Wheel(Circle *parent) : Circle(parent) {
     angle = 0.0;
@@ -36,6 +37,11 @@ void Wheel::drawWheel(QPainter *painter){
     QPen pen(Qt::black, 2, Qt::SolidLine);
     painter->setPen(pen);
 
+    QPainterPath path;                     \
+    path.addEllipse(QPointF(x, y), r, r);
+    path.addEllipse(QPointF(x, y), 175.0, 175.0);
+    painter->fillPath(path, Qt::black);
+
     for(int i = 0; i < num; ++i){
         qreal rad = 2 * M_PI * i / num + angle;
         qreal x_new = x + length * qCos(rad);
@@ -43,8 +49,6 @@ void Wheel::drawWheel(QPainter *painter){
 
         painter->drawLine(QPointF(x, y), QPointF(x_new, y_new));
     }
-
-    painter->drawEllipse(QPointF(x, y), 175.0, 175.0);
 }
 
 void Wheel::keyPressEvent(QKeyEvent *event) {

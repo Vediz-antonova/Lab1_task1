@@ -11,7 +11,14 @@ int main(int argc, char *argv[]) {
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(wheel);
 
+    QPixmap bkgnd("/home/vediz/Downloads/grass.jpg");
+
+    bkgnd = bkgnd.scaled(1500, 840, Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+
     QWidget window;
+    window.setPalette(palette);
     window.setLayout(layout);
     window.resize(800, 600);
 

@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QKeyEvent>
 
-Wheel::Wheel(QWidget *parent) : Circle(parent) {
+Wheel::Wheel(Circle *parent) : Circle(parent) {
     angle = 0.0;
     press = 0;
 
@@ -20,16 +20,10 @@ void Wheel::paintEvent(QPaintEvent *event){
 }
 
 void Wheel::rotate(){
-    int step = 1;
+    double step = 0.5;
     if(press){
         angle += step;
-    } /*else {
-        if (angle != 0){
-            angle -= step;
-        } else {
-            angle = 0;
-        }
-    }*/
+    }
 
     update();
 }
@@ -53,10 +47,40 @@ void Wheel::drawWheel(QPainter *painter){
     painter->drawEllipse(QPointF(x, y), 175.0, 175.0);
 }
 
-void Wheel::keyReleaseEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Space){
-        press = !press;
-    }
+void Wheel::keyPressEvent(QKeyEvent *event) {
+    int step = 10;
+    int newX = x, newY = y;
+    switch (event->key()){
+    case Qt::Key_Left:
+        newX -= step;
+        press = 1;
+        break;
 
+    case Qt::Key_Right:
+        newX += step;
+        press = 1;
+        break;
+
+    case Qt::Key_Up:
+        newY -= step;
+        press = 1;
+        break;
+
+    case Qt::Key_Down:
+        newY += step;
+        press = 1;
+        break;
+    }
+    if(newX - r >= 0 && newX + r <= width() && newY - r >= 0 && newY + r <= height()){
+        x = newX;
+        y = newY;
+    }
+    update();
+}
+
+void Wheel::keyReleaseEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right ||                                                     event->key() == Qt::Key_Up || event->key() == Qt::Key_Down){
+        press = 0;
+    }
     update();
 }

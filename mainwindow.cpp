@@ -21,12 +21,3 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     W.drawWheel(&painter);
 }
-
-void MainWindow::on_pushButton_clicked()
-{
-    W.press = !(W.press);
-    W.rotate();
-
-    update();
-}
-

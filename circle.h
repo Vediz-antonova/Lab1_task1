@@ -12,7 +12,6 @@ protected:
 
 public:
     explicit Circle(QWidget *parent = nullptr);
-    explicit Circle(qreal r_new, QWidget *parent = nullptr);
 
     void paintEvent(QPaintEvent *event) override;
     void draw(QPainter *painter);
